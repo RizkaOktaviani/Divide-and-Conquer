@@ -1,0 +1,66 @@
+#include <iostream>
+using namespace std;
+
+//untuk mencari nilai maksimum dalam subarray gunakan algoritma "Divide and Conquer"
+int maxDivideConquer(int arr[], int low, int high) {
+    if (low == high) //satu elemen array
+        return arr[low];
+    else if (low + 1 == high) //dua elemen array
+        return max(arr[low], arr[high]);
+    else {
+        int mid = (low + high) / 2; //temukan indeks tengah array
+        int leftMax = maxDivideConquer(arr, low, mid); //pengulangan pada subarray kiri
+        int rightMax = maxDivideConquer(arr, mid + 1, high); //pengulangan pada subarray kanan
+        return max(leftMax, rightMax); //menggabungkan solusi dari submasalah
+    }
+}
+
+//untuk melakukan pengurutan gunakan (bubble sort)
+void bubbleSort(int arr[], int n) {
+    for (int i = 0; i < n - 1; ++i) {
+        for (int j = 0; j < n - i - 1; ++j) {
+            if (arr[j] > arr[j + 1]) {
+                //tukar elemen jika urutannya salah
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+}
+
+int main() {
+    //meminta user untuk memasukkan berapa banyaknya array
+    int n;
+    cout << "Masukkan banyaknya array: ";
+    cin >> n;
+
+    //meminta user untuk memasukkan elemen-elemen array
+    int arr[n];
+    cout << endl;
+    cout << "Masukkan elemen array:\n";
+    for (int i = 0; i < n; ++i) {
+        cout << "Elemen ke-" << i + 1 << ": ";
+        cin >> arr[i];
+    }
+
+    //panggil fungsi bubbleSort untuk mengurutkan array
+    bubbleSort(arr, n);
+
+    //tampilkan array yang sudah diurutkan
+    cout << endl;
+    cout << "Array setelah diurutkan dari terkecil ke terbesar:\n";
+    for (int i = 0; i < n; ++i) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+
+    //panggil fungsi maxDivideConquer untuk mencari nilai maksimum
+    int maxVal = maxDivideConquer(arr, 0, n - 1);
+
+    //tampilkan hasil
+    cout << endl;
+    cout << "Nilai maksimum dalam array adalah: " << maxVal << endl;
+
+    return 0;
+}
